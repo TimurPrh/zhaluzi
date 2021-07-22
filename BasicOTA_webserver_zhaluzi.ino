@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', myFunctionTestvalues);
             </tr>-->
             <tr>
               <td><label class="w3-text" style="padding-top:8px;display:inline-block"><b>rast</b>
-              <br><span class="w3-text w3-small">Количество шагов двигателя (по умол. 42000)</span></label></td>
+              <br><span class="w3-text w3-small">Количество шагов двигателя (по умолч. 42000)</span></label></td>
               <td><input name="test_rast" id="test_rast" class="w3-input w3-border" type="number" min="1" max="65000" style="width:80px; margin-left:5px"></td>
             </tr>
             <tr>
@@ -1152,14 +1152,15 @@ void timeTick() {
       }
 
       if ( ((minuteCounter > 30) || (time_init && (secs==20))) && (WiFi.status() == WL_CONNECTED) )  {    // синхронизация каждые 30 минут
-        minuteCounter = 0;
         if (timeClient.update()) {
-          if (time_init) updTime();
+          delay(5);
+          minuteCounter = 0; 
           time_init = 0;
           hrs = timeClient.getHours();
           mins = timeClient.getMinutes();
           secs = timeClient.getSeconds();
           days = timeClient.getDay();
+          updTime();
         }
       }
     }
@@ -1475,7 +1476,6 @@ void loop() {
   }
   stepper1.run();
   if (stepper1.currentPosition() == stepper1.targetPosition()) {
-  
     stepper1.disableOutputs();
   }
 }
